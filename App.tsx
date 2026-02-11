@@ -248,4 +248,14 @@ const App: React.FC = () => {
           )}
         </main>
 
-        {showScanner && <Scanner onScan={
+        {showScanner && <Scanner onScan={handleScanSuccess} onClose={() => setShowScanner(false)} />}
+        
+        <footer className="mt-12 py-8 border-t border-slate-200 bg-white text-center">
+            <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">PA PRABUMULIH KELAS II &copy; 2026</p>
+        </footer>
+      </div>
+    </Router>
+  );
+};
+
+export default App;
