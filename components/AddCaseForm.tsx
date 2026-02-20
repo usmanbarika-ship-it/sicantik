@@ -141,4 +141,145 @@ const AddCaseForm: React.FC<AddCaseFormProps> = ({ onSave, onCancel, onDelete, i
                     </select>
                   </div>
                   <div>
-                    <label
+                    <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Tahun</label>
+                    <input 
+                      type="number" disabled={!!initialData}
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition-all font-medium disabled:opacity-50"
+                      value={formData.year}
+                      onChange={e => setFormData({...formData, year: e.target.value})}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Klasifikasi Perkara</label>
+                  <input 
+                    type="text" required placeholder="Cerai Gugat"
+                    value={formData.classification || ''}
+                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition-all font-medium"
+                    onChange={e => setFormData({...formData, classification: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Pihak / Pemohon</label>
+                  <input 
+                    type="text" required placeholder="Nama Pihak"
+                    value={formData.parties || ''}
+                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition-all font-medium"
+                    onChange={e => setFormData({...formData, parties: e.target.value})}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className={`p-2 rounded-lg ${formData.isArchived ? 'bg-green-600 text-white' : 'bg-slate-200 text-slate-500'}`}>
+                  <Archive className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-slate-800">Status Minutasi</h3>
+                  <p className="text-xs text-slate-500">Arsip fisik & Digital PDF</p>
+                </div>
+              </div>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input 
+                  type="checkbox" className="sr-only peer" 
+                  checked={formData.isArchived}
+                  onChange={e => setFormData({...formData, isArchived: e.target.checked})}
+                />
+                <div className="w-14 h-7 bg-slate-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-green-600"></div>
+              </label>
+            </div>
+
+            {formData.isArchived && (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-in slide-in-from-top-2 duration-300">
+                <div className="space-y-4">
+                  <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
+                    <MapPin className="w-3 h-3" /> Lokasi Fisik
+                  </h4>
+                  <div className="grid grid-cols-2 gap-3">
+                    <StorageInput label="Ruang" value={storageLocation.roomNo} onChange={v => setStorageLocation({...storageLocation, roomNo: v})} />
+                    <StorageInput label="Lemari" value={storageLocation.shelfNo} onChange={v => setStorageLocation({...storageLocation, shelfNo: v})} />
+                    <StorageInput label="Tingkat" value={storageLocation.levelNo} onChange={v => setStorageLocation({...storageLocation, levelNo: v})} />
+                    <StorageInput label="Box" value={storageLocation.boxNo} onChange={v => setStorageLocation({...storageLocation, boxNo: v})} />
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
+                    <FileUp className="w-3 h-3" /> Berkas PDF (Cloud Storage)
+                  </h4>
+                  <div className="flex flex-col gap-3">
+                    <input type="file" ref={fileInputRef} className="hidden" accept="application/pdf" onChange={handleFileUpload} />
+                    {pdfUrl && !isUploading ? (
+                      <div className="flex items-center justify-between p-3 bg-white border border-slate-200 rounded-xl">
+                        <div className="flex items-center gap-2 overflow-hidden">
+                          <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+                          <span className="text-xs font-bold text-slate-600 truncate">{selectedFile ? selectedFile.name : 'Dokumen Terupload'}</span>
+                        </div>
+                        <button type="button" onClick={() => {setPdfUrl(undefined); setSelectedFile(null)}} className="text-red-500 hover:bg-red-50 p-1.5 rounded-lg">
+                          <RotateCcw className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ) : (
+                      <button 
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="w-full py-6 border-2 border-dashed border-slate-200 rounded-xl flex flex-col items-center justify-center gap-2 text-slate-400 hover:border-blue-400 hover:text-blue-500 transition-all bg-white"
+                      >
+                        {isUploading ? <Loader2 className="w-6 h-6 animate-spin text-blue-600" /> : <FileUp className="w-6 h-6" />}
+                        <span className="text-xs font-bold">{isUploading ? 'Sedang Mengunggah...' : 'Pilih PDF Berkas'}</span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t border-slate-100">
+            {initialData && (
+              <button 
+                type="button" 
+                onClick={() => onDelete && onDelete(initialData.id)}
+                className="flex items-center justify-center gap-2 px-6 py-4 border border-red-100 text-red-600 rounded-xl font-bold hover:bg-red-50 transition-all"
+              >
+                <Trash2 className="w-5 h-5" /> Hapus
+              </button>
+            )}
+            <div className="flex-1 flex gap-4 w-full">
+              <button type="button" onClick={onCancel} className="flex-1 py-4 border border-slate-200 text-slate-600 rounded-xl font-bold hover:bg-slate-50 transition-all">
+                Batal
+              </button>
+              <button 
+                type="submit" 
+                disabled={isSubmitting}
+                className={`flex-[2] py-4 rounded-xl font-bold transition-all shadow-xl flex items-center justify-center gap-2 text-white ${
+                  initialData ? 'bg-blue-600 hover:bg-blue-700' : 'bg-emerald-600 hover:bg-emerald-700 shadow-emerald-100'
+                } disabled:opacity-70`}
+              >
+                {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <><Save className="w-5 h-5" /> {initialData ? 'Simpan Perubahan' : 'Simpan ke Cloud'}</>}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+const StorageInput = ({ label, value, onChange }: { label: string, value: string, onChange: (v: string) => void }) => (
+  <div>
+    <label className="block text-[10px] text-slate-500 font-bold mb-1 ml-1">{label}</label>
+    <input 
+      type="text" value={value} onChange={e => onChange(e.target.value)}
+      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-bold focus:ring-2 focus:ring-blue-500 outline-none"
+    />
+  </div>
+);
+
+export default AddCaseForm;
