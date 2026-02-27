@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { X, Lock, User, ShieldAlert, Loader2 } from 'lucide-react';
 
@@ -18,9 +17,9 @@ const LoginModal: React.FC<LoginModalProps> = ({ onSuccess, onClose }) => {
     setIsSubmitting(true);
     setError(null);
 
-    // Hardcoded credentials as requested
+    // Simulasi validasi login
     setTimeout(() => {
-      if (username === 'admin' && password === 'adminn') {
+      if (username === 'admin' && password === 'admin') {
         onSuccess();
       } else {
         setError('Username atau password tidak valid.');
@@ -41,7 +40,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onSuccess, onClose }) => {
               </div>
               <div>
                 <h3 className="font-bold text-slate-900">Akses Terbatas</h3>
-                <p className="text-xs text-slate-500">Silakan masuk untuk melanjutkan.</p>
+                <p className="text-xs text-slate-500">Silakan masuk sebagai Admin.</p>
               </div>
             </div>
             <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-400">
@@ -58,7 +57,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onSuccess, onClose }) => {
                   type="text" 
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Username Admin"
+                  placeholder="admin"
                   className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-slate-900 transition-all text-sm font-medium"
                   required
                 />
@@ -73,7 +72,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onSuccess, onClose }) => {
                   type="password" 
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••••••"
+                  placeholder="••••••••"
                   className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-slate-900 transition-all text-sm font-medium"
                   required
                 />
@@ -81,7 +80,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onSuccess, onClose }) => {
             </div>
 
             {error && (
-              <div className="flex items-center gap-2 text-red-600 bg-red-50 p-3 rounded-xl text-xs font-bold border border-red-100 animate-in shake-in duration-300">
+              <div className="flex items-center gap-2 text-red-600 bg-red-50 p-3 rounded-xl text-xs font-bold border border-red-100">
                 <ShieldAlert className="w-4 h-4 shrink-0" />
                 {error}
               </div>
@@ -90,19 +89,11 @@ const LoginModal: React.FC<LoginModalProps> = ({ onSuccess, onClose }) => {
             <button 
               type="submit" 
               disabled={isSubmitting}
-              className="w-full bg-slate-900 text-white py-4 rounded-xl font-bold hover:bg-slate-800 transition-all active:scale-95 flex items-center justify-center gap-2 shadow-xl shadow-slate-200 mt-2"
+              className="w-full bg-slate-900 text-white py-4 rounded-xl font-bold hover:bg-slate-800 transition-all active:scale-95 flex items-center justify-center gap-2 shadow-xl mt-2"
             >
-              {isSubmitting ? (
-                <><Loader2 className="w-4 h-4 animate-spin" /> Memvalidasi...</>
-              ) : (
-                'Masuk Sistem'
-              )}
+              {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Masuk Sistem'}
             </button>
           </form>
-
-          <p className="text-[10px] text-center text-slate-400 mt-6 uppercase tracking-widest font-bold">
-            SI CANTIK PA Prabumulih Authentication
-          </p>
         </div>
       </div>
     </div>
