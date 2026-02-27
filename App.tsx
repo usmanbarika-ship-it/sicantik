@@ -6,6 +6,8 @@ import {
 } from 'lucide-react';
 import { CaseData, CaseType, SearchParams } from './types';
 import { MOCK_CASES } from './constants';
+
+// Pastikan huruf besar/kecil folder 'components' sama dengan di GitHub
 import CaseDetails from './components/CaseDetails';
 import Scanner from './components/Scanner';
 import AddCaseForm from './components/AddCaseForm';
