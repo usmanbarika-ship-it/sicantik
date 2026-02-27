@@ -20,7 +20,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onSuccess, onClose }) => {
 
     // Hardcoded credentials as requested
     setTimeout(() => {
-      if (username === 'paprabumulih' && password === 'PraBuMulih2026') {
+      if (username === 'admin' && password === 'adminn') {
         onSuccess();
       } else {
         setError('Username atau password tidak valid.');
@@ -58,7 +58,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ onSuccess, onClose }) => {
                   type="text" 
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Username Satker"
+                  placeholder="Username Admin"
                   className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-slate-900 transition-all text-sm font-medium"
                   required
                 />
